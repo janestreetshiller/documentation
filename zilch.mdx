@@ -1,0 +1,18 @@
+---
+title: "Zilch"
+description: "Check the extraction integration’s availability before attempting a request."
+---
+
+<h2 id="zilch-status">Read availability</h2>
+
+<p>Run this public status request in a terminal. It creates no extraction or browser session.</p>
+
+```bash
+curl --include --fail-with-body https://ouros.md/ouros/v1/zilch/status
+```
+
+ <p>Read <code>configured</code>, <code>apiKeyAccess</code>, and <code>tokenPurchases</code>. If they are false, a copied API example cannot enable the service.</p>
+
+<h2 id="zilch-boundary">Current boundary</h2>
+
+<p>Zilch has local extraction and reading workflows with a separate private pilot integration. Public paid hosted access is not launched.</p> <p>Read <a href="https://ouros.md/zilch">Zilch</a> for the available surface. Keep provider credentials out of URLs, examples, and logs.</p>

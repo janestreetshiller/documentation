@@ -1,0 +1,35 @@
+---
+title: "Usage and operations"
+description: "Record request state without exposing credentials or private content."
+---
+
+<h2 id="gateway-operations">Inspect the published status page</h2>
+
+<p>This request reads HTML. Use text handling, not a JSON parser.</p>
+
+```bash
+curl --include --fail-with-body https://ouros.md/status
+```
+
+ <p>This route serves <code>text/html</code>. A successful page response does not measure provider health or prove a session completed.</p>
+
+<h2 id="operations-record">Keep a useful request record</h2>
+
+
+
+```text
+Surface: Gateway playground
+Route: GET /eve/v1/session/{sessionId}
+Time: [time and timezone]
+HTTP status: [observed status]
+Error code or state: [observed value]
+Expected result: [what you expected]
+Observed result: [what happened]
+Credentials and private request content: omitted
+```
+
+ <p>Retain session IDs and idempotency keys privately with the operation. Do not post authorization headers, cookies, provider secrets, or private stream content in support messages.</p>
+
+<h2 id="operations-usage">Usage and cost</h2>
+
+<p>The playground’s history is local to the tab, capped at 30 requests, and cleared on refresh or sign-out. It is not an account audit log. Provider expense receipts are separate from customer invoices.</p> <p>Use <a href="/credits">Plans, allowance, and billing</a> for catalog and entitlement reads. Use <a href="https://ouros.md/changelog">Changelog</a> for dated website changes.</p>

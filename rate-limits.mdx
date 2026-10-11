@@ -1,0 +1,31 @@
+---
+title: "Rate limits"
+description: "Read Retry-After and check which limits are published."
+---
+
+<h2 id="retry-after">Read the retry instruction</h2>
+
+<p>Use this function when a response includes <code>Retry-After</code>. The header can contain a number of seconds or an HTTP date. This example calculates a wait; it sends no request.</p>
+
+```javascript
+function retryDelayMs(value, now = Date.now()) {
+  if (!value) return null;
+  if (/^\d+$/.test(value.trim())) return Number(value) * 1000;
+  const deadline = Date.parse(value);
+  return Number.isFinite(deadline) ? Math.max(0, deadline - now) : null;
+}
+
+console.log(retryDelayMs('3')); // 3000
+// For a response you already have:
+// const delay = retryDelayMs(response.headers.get('Retry-After'));
+```
+
+
+
+<h2 id="published-limits">What is published</h2>
+
+<p>Public plan requests-per-minute and daily quotas are not specified.</p> <p>A route can reject a request with <code>429</code>. Follow its response code and any retry instruction. A missing header does not promise unlimited requests. See <a href="/session-api#session-input">session input limits</a> for the client’s message and body bounds.</p>
+
+<h2 id="rate-safe-retry">Before another request</h2>
+
+<p>Keep retries bounded. If the original submission might have started a session, preserve its identity and reconcile it first. A delay alone does not make it safe to start a second run.</p>

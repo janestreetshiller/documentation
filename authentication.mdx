@@ -1,0 +1,45 @@
+---
+title: "Authentication"
+description: "Separate your Ouros browser session from provider credentials."
+---
+
+<h2 id="gateway-auth">Inspect the sign-in boundary</h2>
+
+<p>This anonymous request is safe to run in a terminal. With no Ouros session, it returns <code>401</code>.</p>
+
+```bash
+curl --include https://ouros.md/hvy/v1/account
+```
+
+
+
+```json
+{"ok":false,"code":"authentication_required"}
+```
+
+ <p>Sign in through <a href="https://ouros.md/login">Ouros</a>. The dashboard and playground send same-origin session cookies. Do not copy a cookie into a script, URL, or support message.</p>
+
+<h2 id="auth-browser">Read from the signed-in site</h2>
+
+
+
+```javascript
+// Run on the signed-in Ouros origin, for example in the playground.
+const response = await fetch('/hvy/v1/account', {
+  credentials: 'same-origin',
+  cache: 'no-store',
+});
+const account = await response.json();
+if (!response.ok) throw new Error(account.code ?? `HTTP ${response.status}`);
+console.log(account.services);
+```
+
+ <p>This example must run on the Ouros origin with an existing sign-in session. Pasting it into another site or running it in Node does not give it access to your browser session.</p>
+
+<h2 id="auth-provider">Provider keys and public API keys</h2>
+
+<p>Provider credentials configure the provider connection in the signed-in account surface. An OpenAI, Anthropic, Exa, or Brave key does not replace an Ouros account session.</p> <p>The deployed portal does not expose a public workspace-key issuance flow or an OpenAI-compatible completion API. Use the <a href="https://ouros.md/dashboard#/playground">playground</a> with your Ouros session.</p>
+
+<h2 id="recover-signin">If a request still returns 401</h2>
+
+<p>Keep the draft, sign in in another tab, then return to the original action. Record the route, time, and redacted error if it still fails. Repeated sign-ins do not prove the session works. See <a href="/troubleshooting#recover-signin">sign-in troubleshooting</a>.</p>

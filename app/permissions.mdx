@@ -1,0 +1,8 @@
+---
+title: "Permissions"
+description: "Enable access for the feature you want to use and keep account access separate from Mac permissions."
+---
+
+<h2 id="permissions">Choose the access you need</h2>
+
+<p>Check permissions for the feature you are using. The complete permission list depends on the release build and is not published yet.</p><dl className="docs-steps"><dt>Keyboard controls</dt><dd>Current app source uses Input Monitoring for keyboard shortcuts while another app is in front. After enabling it in System Settings, return to Ouros and recheck. Follow any macOS request to quit and reopen the app.</dd><dt>Dictated text and window control</dt><dd>These actions use Accessibility access. Voice Wake itself does not require Accessibility.</dd><dt>Voice Wake</dt><dd>Check explicit opt-in, microphone access, speech recognition permission and on-device recognition availability. See <a href="/app/voice">Voice</a> and the <a href="/app/troubleshooting#recover-voice">Voice Wake checks</a>.</dd><dt>Music connection</dt><dd>A Spotify 403 concerns the connection's permission. Check the Music connection. For unexpected password dialogs, use the <a href="/app/troubleshooting#recover-keychain">Keychain checks</a>; do not delete your Keychain.</dd><dt>Website or workspace access</dt><dd>Use the <a href="/app/troubleshooting#recover-signin">401 checks</a> for a missing session and the <a href="/app/troubleshooting#recover-forbidden">403 checks</a> for a refused request. Signing in does not grant additional workspace permissions.</dd></dl><p>A greyed-out feature may be unavailable in the product. Check <a href="/app/not-built">What is not built yet</a> before changing permissions.</p>

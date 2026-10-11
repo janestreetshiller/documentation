@@ -1,0 +1,16 @@
+---
+title: "CLI and Command mode"
+description: "Copy a Command mode routing example and check the current CLI availability."
+---
+
+<h2 id="cli-reference">Try a Command mode input</h2>
+
+<p>In the native Ouros bar, this input routes to Commands and carries <code>pwd</code> across:</p><div className="codeblock"><pre><code>&gt; pwd</code></pre></div><p><code>pwd</code> prints the shell's working directory when run. A destination opening only confirms routing; inspect the command output to confirm execution. Use the <a href="/app/search-and-modes#prefixes">prefix reference</a> if the input reaches another surface.</p>
+
+<h2 id="cli-availability">Public CLI availability</h2>
+
+<p>The current <a href="https://ouros.md/cli">CLI product page</a> calls the product RX and marks it unavailable. There is no public installation command or released command reference.</p><p>For local terminal work in Ouros Bar, use <a href="https://ouros.md/features/command">Command mode</a>.</p>
+
+<h2 id="cli-service-check">Check a public response from Terminal</h2>
+
+<p>This read-only request checks whether the Gateway responds. It requires no account or provider key.</p><div className="codeblock"><pre><code>curl --include --fail-with-body https://ouros.md/eve/v1/health</code></pre></div><p>The handler returns <code>200 OK</code> with this JSON:</p><div className="codeblock"><pre><code>&#123;"ok":true,"service":"hvy-cloud-gateway"&#125;</code></pre></div><p>This response does not verify model access, account balance or an RX installation. For a failed request, keep the HTTP status and use <a href="/app/troubleshooting">Troubleshooting</a>.</p>

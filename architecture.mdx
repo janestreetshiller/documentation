@@ -1,0 +1,33 @@
+---
+title: "Gateway boundaries"
+description: "Keep public reads, account state, and runtime execution separate."
+---
+
+<h2 id="gateway-architecture">Start from the published contract</h2>
+
+<p>Read the public integration context before writing an agent instruction.</p>
+
+```bash
+curl --fail-with-body https://ouros.md/gateway-skill.md
+```
+
+ <p>The skill describes the signed-in playground, account capability checks, supported session routes, and recovery rules. It does not grant an account access.</p>
+
+<h2 id="architecture-layers">Three boundaries</h2>
+
+<p>The public site serves documentation, status, Gateway health, and the billing catalog. The signed-in account reports entitlement and service flags. The runtime receives an authorized session request and streams its result.</p> <p>Keep request identity across those steps. Check <code>cloud.chat.run</code> before session creation and retain the returned session ID through reconnects. Store provider credentials in account configuration.</p>
+
+<h2 id="architecture-agent">Give an agent usable instructions</h2>
+
+
+
+```text
+Read https://ouros.md/gateway-skill.md and https://ouros.md/docs/session-api.
+Use only the documented routes and an existing Ouros sign-in session.
+Check account capability flags before attempting execution.
+Keep credentials out of chat, copied examples, and logs.
+Preserve request identity after an uncertain submission.
+Report acceptance and completion separately.
+```
+
+ <p>No public file-indexing or local-shell API is promised here.</p>

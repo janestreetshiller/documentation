@@ -1,0 +1,33 @@
+---
+title: "Loop Builder"
+description: "Check build and run access in the signed-in workspace."
+---
+
+<h2 id="loops-account">Read capability flags</h2>
+
+<p>Run this on the signed-in Ouros origin. It inspects access without building or running a loop.</p>
+
+```javascript
+// Run on the signed-in Ouros origin, for example in the playground.
+const response = await fetch('/hvy/v1/account', {
+  credentials: 'same-origin',
+  cache: 'no-store',
+});
+const account = await response.json();
+if (!response.ok) throw new Error(account.code ?? `HTTP ${response.status}`);
+console.log(account.services);
+console.log({
+  canBuild: account.services?.['cloud.loops.build'] === true,
+  canRun: account.services?.['cloud.loops.run'] === true,
+});
+```
+
+
+
+<h2 id="loops-review">Build, review, and run</h2>
+
+<p>Open <a href="https://ouros.md/loop-builder">Loop Builder</a> for the workflow editor and <a href="https://ouros.md/dashboard#/loop-builder">your workspace</a> for saved loops. Hosted building and execution depend on service configuration and the account’s capability flags.</p> <p>Review the generated version and its inputs before activation. A saved draft or an accepted build request does not establish that a run succeeded.</p>
+
+<h2 id="loops-idempotency">Keep run identity</h2>
+
+<p>Use the account UI and its current request contract. For an uncertain run, preserve its ID and original idempotency key, then check its state before starting another.</p>

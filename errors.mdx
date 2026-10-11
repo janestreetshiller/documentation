@@ -1,0 +1,28 @@
+---
+title: "Errors and retries"
+description: "Read the status and error code before repeating a request."
+---
+
+<h2 id="gateway-errors">Inspect an error response</h2>
+
+<p>Run this without credentials to see the sign-in error. The request does not create a session.</p>
+
+```bash
+curl --include https://ouros.md/eve/v1/session
+```
+
+
+
+```json
+{"ok":false,"code":"authentication_required"}
+```
+
+ <p>Read the HTTP status and <code>code</code> together. An HTML response should be read as text; check <code>Content-Type</code> before parsing JSON.</p>
+
+<h2 id="error-reference">Known responses</h2>
+
+<table><thead><tr><th>Status</th><th>Code or condition</th><th>Next step</th></tr></thead><tbody> <tr><td>400</td><td><code>idempotency_key_required</code>, invalid input</td><td>Correct the request shape. Keep the same key for the same intended operation.</td></tr> <tr><td>401</td><td><code>authentication_required</code></td><td>Restore the Ouros sign-in session.</td></tr> <tr><td>402</td><td><code>subscription_required</code> or <code>allowance_unavailable</code></td><td>Check the account entitlement and allowance.</td></tr> <tr><td>403</td><td><code>application_forbidden</code> or an access refusal</td><td>Record the exact code; check the application, origin, or workspace boundary.</td></tr> <tr><td>404</td><td><code>route_not_available</code> or <code>session_not_found</code></td><td>Check the documented route and session identity.</td></tr> <tr><td>202 / 409</td><td>Dispatch reconciliation or <code>idempotency_conflict</code></td><td>Read the code. Reconcile a pending dispatch; a reused key with changed input is a conflict.</td></tr> <tr><td>429</td><td>A route-specific limit</td><td>Follow <code>Retry-After</code> if present. Public plan RPM quotas are not published.</td></tr> <tr><td>503</td><td><code>hosted_pilot_not_enabled</code> or <code>service_unavailable</code></td><td>The service or runtime is unavailable. Preserve the request identity if the outcome is uncertain.</td></tr> </tbody></table>
+
+<h2 id="error-retry">Handle retries without creating another run</h2>
+
+<p>For an uncertain submission, keep the original session ID, idempotency key, and input. Reconcile the request before starting another. A network failure may occur after the server accepted it.</p> <p>For a <code>429</code>, use the <a href="/rate-limits">Retry-After parser</a>. It does not automatically repeat a billable action. For a <code>403</code> or unresolved <code>202 / 409</code>, use <a href="/troubleshooting">Troubleshooting</a>.</p>

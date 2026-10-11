@@ -1,47 +1,49 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Download and install Ouros on your Mac, or start with a Gateway API health check."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+<h2 id="quickstart-mac">Use Ouros on your Mac</h2>
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+<p>Ouros Bar opens a compact bar for finding apps and files. Start here for the Mac app. For an API integration, continue to <a href="#first-request">the Gateway health check</a> below.</p> <ol className="docs-guide"><li><strong>Download.</strong> Ouros Bar requires macOS 26 or later on an M-series Mac. Open <a href="https://ouros.md/download">Download Ouros</a>, then create a free account or sign in with an available option. Your account opens on Download and install. Choose <strong>Download Ouros for Mac</strong> and wait for the disk image (a file ending in <code>.dmg</code>) to finish downloading.</li><li><strong>Install and open.</strong> Open the disk image from your browser’s downloads or Finder’s Downloads folder. Drag Ouros to Applications, wait for the copy to finish, then open Ouros from Applications. If macOS asks whether to open the app downloaded from the internet, choose <strong>Open</strong> for the Ouros copy you downloaded. If a different warning prevents opening, use <a href="/troubleshooting#troubleshooting">the installation checks</a>. See <a href="https://support.apple.com/en-us/102445">Apple’s first-open guidance</a>.</li><li><strong>Connect your account if prompted.</strong> If Ouros opens a sign-in page, keep the app running and finish in that browser page. Choose <strong>Connect Ouros</strong> if asked. If a device code is shown, match it with the code in Ouros before choosing <strong>Connect Ouros X</strong>. Return to the app and check that it confirms you are signed in. If it is still waiting, use <a href="/troubleshooting#recover-signin">the sign-in checks</a>.</li><li><strong>Find one app.</strong> With Ouros running, tap and release <strong>Right Option</strong> by itself: the Option key on the right of the space bar. Type the name of an app you know, such as Safari. Read the matches and select the intended app. Check that it opens. <strong>Right Control</strong> closes the bar. See <a href="/app/first-action">Your first action</a> for the controls.</li></ol> <p>If the bar opens only while Ouros is in front, go to <strong>System Settings → Privacy &amp; Security → Input Monitoring</strong> and enable Ouros. Follow any macOS request to quit and reopen it, then try from another app. You can turn this access off in the same place. See <a href="/app/permissions">Permissions</a> for other features.</p> <p>Browser sign-in alone does not confirm the app is connected. Mac permissions are separate from your account.</p>
 
-## Prerequisites
+<h2 id="quickstart-mac-next">Choose your next task</h2>
 
-Before you begin, you must have:
+<p>After your first app opens, choose what you want to try next. You can return to these guides later.</p><div className="docs-start-cards"><a className="docs-start-card" href="/app/search-and-modes#search"><strong>Find a file</strong><p>Check the folders in Search Settings, then search for a file whose name you know.</p></a><a className="docs-start-card" href="/app/permissions"><strong>Set up another feature</strong><p>Read which access the feature needs before enabling it. Keyboard controls, dictation and Voice Wake have different requirements.</p></a><a className="docs-start-card" href="/troubleshooting#troubleshooting"><strong>Recover from a problem</strong><p>Start with the step that stopped you and check the visible message.</p></a></div>
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+<h2 id="first-request">1. Check service health</h2>
 
-## Get started
+<p>Run this command in a terminal. The health endpoint requires no account or API key.</p>
 
-<Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+```bash
+curl --include --fail-with-body https://ouros.md/eve/v1/health
+```
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+ <p>A successful response has HTTP status <code>200</code> and <code>Content-Type: application/json</code>.</p>
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+```json
+{"ok":true,"service":"hvy-cloud-gateway"}
+```
 
-    ```bash
-    your-cli start
-    ```
-  </Step>
-</Steps>
+ <p>A health response confirms the Gateway is reachable. Check account access before creating a session.</p>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+<h2 id="quickstart-account">2. Confirm account access</h2>
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+<p><a href="https://ouros.md/login">Sign in</a> and open the <a href="https://ouros.md/dashboard#/playground">playground</a>. To inspect access directly, run this JavaScript on the signed-in Ouros site. It reads <code>GET /hvy/v1/account</code> using your browser session.</p>
+
+```javascript
+// Run on the signed-in Ouros origin, for example in the playground.
+const response = await fetch('/hvy/v1/account', {
+  credentials: 'same-origin',
+  cache: 'no-store',
+});
+const account = await response.json();
+if (!response.ok) throw new Error(account.code ?? `HTTP ${response.status}`);
+console.log(account.services);
+```
+
+ <p>The <code>services</code> object lists enabled services. Creating a chat session requires <code>services["cloud.chat.run"] === true</code>. If it is false, use the playground to review availability before sending a session request.</p>
+
+<h2 id="quickstart-next">3. Create a session</h2>
+
+<p>Follow the <a href="/session-api">Session API</a> guide to create a session, read its state, stream output and cancel a run. Read <a href="/authentication">Authentication</a> before supplying provider credentials.</p><p>If a request fails, use its HTTP status and error code with <a href="/errors">Errors and retries</a>. An enabled account service still requires a configured runtime; a successful health check alone does not confirm execution is available.</p>

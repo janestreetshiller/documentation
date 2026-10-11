@@ -1,0 +1,33 @@
+---
+title: "Plans, allowance, and billing"
+description: "Read the public catalog and inspect your account entitlement."
+---
+
+<h2 id="billing-catalog">Read current offers</h2>
+
+<p>This is a public, read-only request. It requires no account or provider key.</p>
+
+```bash
+curl --include --fail-with-body https://ouros.md/ouros/v1/billing/offers
+```
+
+ <p>The JSON contains <code>configured</code> and <code>offers</code>. Offer fields include <code>id</code>, <code>priceCents</code>, <code>currency</code>, <code>interval</code>, and <code>cloudMonthlyUnits</code>. Read the response for current values; this guide does not freeze prices.</p>
+
+<h2 id="billing-entitlement">Read your entitlement</h2>
+
+<p>Run this on the signed-in Ouros origin. It reads account state without buying anything.</p>
+
+```javascript
+const response = await fetch('/hvy/v1/entitlement', {
+  credentials: 'same-origin',
+  cache: 'no-store',
+});
+const result = await response.json();
+console.log(response.status, result);
+```
+
+ <p>A public offer is not an entitlement. A successful checkout page also does not prove that payment, webhook processing, and account access have completed.</p>
+
+<h2 id="billing-boundary">Charges and unavailable allowance</h2>
+
+<p>Use <a href="https://ouros.md/pricing">Pricing</a> and the signed-in account for published terms. Provider charges and Ouros plan charges are separate. This contract does not define a dollar credit balance, paid-credit rollover, automatic top-ups, a <code>/v1/credits</code> endpoint, or a <code>cost_usd</code> field on every response.</p> <p>For <code>402</code>, inspect the returned code and your entitlement. Repeating a denied request does not add allowance.</p>

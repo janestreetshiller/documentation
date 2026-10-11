@@ -1,0 +1,12 @@
+---
+title: "Search and modes"
+description: "Find apps and files, choose a mode, and understand what a leading symbol carries across."
+---
+
+<h2 id="search">Search and choose a mode</h2>
+
+<p>App and file search with prioritization is built. If a file search finds nothing, check the folders selected in Search Settings.</p><p>The current source cycles through Files, Commands, Web, Chat, Music and Notes. Voice and Plugins have separate entry points. The configured order can differ.</p><dl className="docs-steps"><dt>Files</dt><dd>Find files, folders and applications.</dd><dt>Commands</dt><dd>Work with shell commands and local tools.</dd><dt>Web</dt><dd>Open the web search and browsing surface.</dd><dt>Chat</dt><dd>Use the selected model, subject to its connection and account access.</dd><dt>Music</dt><dd>Use the connected playback controls. The Spotify connection is partial.</dd><dt>Notes</dt><dd>Capture and work with notes.</dd></dl>
+
+<h2 id="prefixes">Prefix routing</h2>
+
+<p>A prefix chooses a destination and carries the remaining words across. These leading-symbol rules were checked against the current native source; confirm them against your installed build.</p><p>Copy one line into the bar to check its route. Selecting Commands and running a command are separate actions.</p><div className="codeblock"><pre><code>&gt; pwd ? Swift concurrency @ Explain this result ~/Documents</code></pre></div><table><thead><tr><th scope="col">Leading symbol</th><th scope="col">Destination</th><th scope="col">What carries across</th></tr></thead><tbody><tr><td><code>&gt;</code> or <code>$</code></td><td>Commands</td><td>The symbol is consumed; the command text remains.</td></tr><tr><td><code>?</code></td><td>Web</td><td>The symbol is consumed; the remaining words carry across.</td></tr><tr><td><code>@</code></td><td>Chat</td><td>The symbol is consumed; the remaining words carry across.</td></tr><tr><td><code>#</code></td><td>Plugins</td><td>The symbol is consumed; the remaining words carry across.</td></tr><tr><td><code>/</code> or <code>~</code></td><td>Files</td><td>The entire path, including its leading character, is kept.</td></tr></tbody></table><p>The native router routes automatically from rest. An explicitly selected mode takes precedence. Other source rules use complete first words, addresses and arithmetic shapes; the <a href="https://ouros.md/docs/troubleshooting#recovery">recovery helper</a> previews only the leading symbols above.</p>

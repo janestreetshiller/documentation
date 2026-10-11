@@ -1,0 +1,49 @@
+---
+title: "Session API"
+description: "Create, inspect, stream, and cancel using the dashboard client contract."
+---
+
+<h2 id="gateway-api">Request shapes</h2>
+
+<p>These are client contracts, not an available public execution service. Use them in the signed-in Ouros playground after the account reports <code>cloud.chat.run</code>. A configured runtime and account allowance are also required.</p>
+
+```text
+POST /eve/v1/session
+Content-Type: application/json
+Idempotency-Key: 2b3511ce-e8ba-4fe7-a667-18a35ac7c05a
+
+{"message":"Say hello in one sentence."}
+
+GET /eve/v1/session/{sessionId}
+GET /eve/v1/session/{sessionId}/stream
+Accept: application/x-ndjson
+
+POST /eve/v1/session/{sessionId}/cancel
+```
+
+ <p>Replace <code>&#123;sessionId&#125;</code> with the ID returned by the accepted request. Keep that ID and the original idempotency key for the same operation. Do not submit a new key to bypass a pending result.</p>
+
+<h2 id="session-input">Input limits</h2>
+
+<p>The dashboard client trims the message, rejects empty input, and limits it to 8,000 characters and a 16,384-byte JSON request body. The idempotency key must contain 16–128 letters, digits, underscores, or hyphens.</p>
+
+<h2 id="session-state">Read state before retrying</h2>
+
+<p>An accepted response can be <code>202</code> with <code>state: "dispatched"</code>. Acceptance does not mean the run completed. <code>dispatch_outcome_unknown</code> or a <code>409</code> reconciliation response leaves the outcome unresolved.</p>
+
+```javascript
+// Use a session ID you already received. This reads state; it starts no run.
+const sessionId = 'REPLACE_WITH_YOUR_SESSION_ID';
+const response = await fetch(`/eve/v1/session/${encodeURIComponent(sessionId)}`, {
+  credentials: 'same-origin',
+  cache: 'no-store',
+});
+const result = await response.json();
+console.log(response.status, result);
+```
+
+
+
+<h2 id="session-stream">Streaming and cancellation</h2>
+
+<p>The stream uses newline-delimited JSON (<code>application/x-ndjson</code>). Wait for a terminal event and distinguish completed, failed, and cancelled outcomes. The dashboard checks for the terminal state; text appearing alone does not establish completion.</p> <p>The playground’s “Stop waiting” stops browser observation. Remote cancellation uses <code>POST /eve/v1/session/&#123;sessionId&#125;/cancel</code>. A lost connection does not prove the remote run stopped.</p>

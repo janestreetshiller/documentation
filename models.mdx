@@ -1,0 +1,23 @@
+---
+title: "Models and runtime"
+description: "Read model information from the configured runtime."
+---
+
+<h2 id="runtime-info">Read runtime information</h2>
+
+<p>Run this on the signed-in Ouros origin. The playground uses the same read-only route.</p>
+
+```javascript
+const response = await fetch('/eve/v1/info', {
+  credentials: 'same-origin',
+  cache: 'no-store',
+});
+const info = await response.json();
+console.log(response.status, info);
+```
+
+ <p>Without a sign-in session, the route returns <code>401</code>. The runtime must be connected for usable model information. Reading this route does not start inference.</p>
+
+<h2 id="model-availability">Available contract</h2>
+
+<p>Session requests send a <code>message</code> to the configured runtime. The deployed portal does not offer arbitrary model selection, a public model-list API, or an OpenAI-compatible <code>/v1/chat/completions</code> endpoint.</p> <p>Start with <a href="/quickstart">Quickstart</a>, check <code>cloud.chat.run</code> on your account, then read the <a href="/session-api">Session API</a>. A provider connection or displayed model name does not establish your account’s permission to run it.</p>
