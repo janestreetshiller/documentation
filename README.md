@@ -21,3 +21,7 @@ Confirm the assigned Mintlify hostname or verified custom domain before changing
 For a documentation subdomain, map website `/docs` to the hosted root and `/docs/<guide>` to `/<guide>`, retaining fragments and guide aliases. For same-domain `/docs` hosting, configure Mintlify's supported reverse proxy using the assigned project origin before replacing existing website rewrites. Verify deep links, search and Back on the hosted destination before switching traffic.
 
 Browser examples using same-origin cookies must run on `https://ouros.md`, not on the documentation origin. Documentation hosting does not change authentication, billing or API access. The interactive recovery helper remains linked to its functioning website page.
+
+## Documentation assembly skill
+
+Use `$documentation-assembly` from this checkout for documentation planning, assembly, migration and publishing handoffs. The [skill](.agents/skills/documentation-assembly/SKILL.md) includes [25 comparative examples](.agents/skills/documentation-assembly/references/comparative-examples.md), immutable source citations, page patterns and an assembly brief. The study inspects official source content; it does not claim rendered or executable acceptance of those examples.

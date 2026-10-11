@@ -31,3 +31,7 @@
 
 {/* Define what should and shouldn't be documented */}
 {/* Example: Don't document internal admin features */}
+
+## Documentation assembly
+
+For documentation assembly, navigation planning, migration or publishing handoffs, read [.agents/skills/documentation-assembly/SKILL.md](.agents/skills/documentation-assembly/SKILL.md). Use its matched comparative examples and templates while preserving product facts from authoritative implementation and service sources.
