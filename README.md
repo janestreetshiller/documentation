@@ -1,16 +1,10 @@
-# Mintlify Starter Kit
+# Documentation site
 
-Use the starter kit to get your docs deployed and ready to customize.
+A Mintlify documentation starter. The repository currently contains placeholder introduction and quickstart pages, not finished product documentation.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+Edit `index.mdx` and `quickstart.mdx` for the content, and `docs.json` for branding and navigation. Read [AGENTS.md](AGENTS.md) for the writing conventions.
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
-
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+[Mintlify starter quickstart](https://starter.mintlify.com/quickstart)
 
 ## AI-assisted writing
 
@@ -22,7 +16,7 @@ npx skills add https://mintlify.com/docs
 
 This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
 
-See the [AI tools guides](/ai-tools) for tool-specific setup.
+See [Mintlify’s AI tools guides](https://mintlify.com/docs/ai-tools) for tool-specific setup.
 
 ## Development
 
@@ -42,7 +36,7 @@ View your local preview at `http://localhost:3000`.
 
 ## Publishing changes
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. With that integration configured, pushes to the default branch trigger deployment. The repository alone does not establish that a live site is connected.
 
 ## Need help?
 
